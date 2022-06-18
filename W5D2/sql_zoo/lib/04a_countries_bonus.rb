@@ -14,6 +14,17 @@ def highest_gdp
   # Which countries have a GDP greater than every country in Europe? (Give the
   # name only. Some countries may have NULL gdp values)
   execute(<<-SQL)
+  SELECT name
+  FROM Countries
+  where gdp >
+  (SELECT sum(gdp) as europegdp
+  from Countries
+  group by continent
+  having continent = 'Europe'
+  )
+
+
+
   SQL
 end
 
